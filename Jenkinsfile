@@ -41,7 +41,7 @@ pipeline {
                     unstash(name: 'compiled-results') 
                     //sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
                     script {
-                        def scpCmd = "scp -o StrictHostKeyChecking=no -r ${env.BUILD_ID}/compiled-results/* ec2-user@54.179.43.54:/myapp"
+                        def scpCmd = "scp -o StrictHostKeyChecking=no -r ${pwd} ec2-user@54.179.43.54:/myapp"
 
                         def dockerCmd = '''
                         docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'

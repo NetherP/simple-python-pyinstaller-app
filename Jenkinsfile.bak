@@ -20,7 +20,7 @@ stage('Deliver') {
                 label 'application-cicd' 
             }
             environment {
-                VOLUME = '/mnt/myapp:/src' 
+                VOLUME = '/myapp:/src' 
                 IMAGE = 'cdrx/pyinstaller-linux:python2'
             }
             steps {
