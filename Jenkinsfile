@@ -42,9 +42,6 @@ pipeline {
                     //sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
                     script {
                         def dockerCmd = '''
-                        sudo amazon-linux-extras install docker
-                        sudo service docker start
-
                         docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'
                         '''
                         sshagent(['b000e456-633b-41b7-8953-17eb7343f3c8']) {
