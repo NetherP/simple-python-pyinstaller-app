@@ -49,6 +49,7 @@ pipeline {
                             sh "ssh -o StrictHostKeyChecking=no ec2-user@54.179.43.54 \"${dockerCmd}\""
                         }
                     }
+                    sleep 60
                 }
             }
             post {
