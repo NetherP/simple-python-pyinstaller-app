@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     options {
         skipStagesAfterUnstable()
     }
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 script {
                     def dockerCmd = 'touch /tmp/testdeploy'
-                    sshagent(['ec2-server-key']) {
+                    sshagent(['b000e456-633b-41b7-8953-17eb7343f3c8']) {
                         sh "ssh -o StrictHostKeyChecking=no ec2-user@3.92.144.96 ${dockerCmd}"
                     }
                 }
