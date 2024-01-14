@@ -42,7 +42,7 @@ pipeline {
                     //sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
                     script {
                         sh "pwd"
-                        def scpCmd = "scp -o StrictHostKeyChecking=no -r * ec2-user@54.179.43.54:/myapp"
+                        def scpCmd = "scp -o StrictHostKeyChecking=no -r sources/* ec2-user@54.179.43.54:/myapp"
 
                         def dockerCmd = '''
                         docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'
