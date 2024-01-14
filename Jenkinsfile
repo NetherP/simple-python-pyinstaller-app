@@ -58,6 +58,7 @@ pipeline {
 
                         def dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
                         sshagent(['b000e456-633b-41b7-8953-17eb7343f3c8']) {
+                            sh "pwd"
                             sh scpCmd
                             sh "ssh -o StrictHostKeyChecking=no ec2-user@54.179.43.54 \"${dockerCmd}\""
                         }
