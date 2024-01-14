@@ -54,11 +54,11 @@ pipeline {
             post {
                 success {
                     script {
-                        def scpCmd = "scp -o StrictHostKeyChecking=no -r ec2-user@54.179.43.54:/myapp/dist/add2vals sources/dist/"
+                        def scpCmd = "scp -o StrictHostKeyChecking=no -r ec2-user@54.179.43.54:/myapp/dist/add2vals ${env.BUILD_ID}/sources/dist/add2vals"
 
                         def dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
                         sshagent(['b000e456-633b-41b7-8953-17eb7343f3c8']) {
-                            sh "pwd"
+                            sh "mkdir -p ${env.BUILD_ID}/sources/dist/add2vals"
                             sh scpCmd
                             sh "ssh -o StrictHostKeyChecking=no ec2-user@54.179.43.54 \"${dockerCmd}\""
                         }
