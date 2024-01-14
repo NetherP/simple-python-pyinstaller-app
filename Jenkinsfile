@@ -30,37 +30,16 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
-            agent {
-                label 'application-cicd' 
-            }
-            environment {
-                VOLUME = '/mnt/myapp:/src' 
-                IMAGE = 'cdrx/pyinstaller-linux:python2'
-            }
+        stage ('Deploy') {
             steps {
-                dir(path: env.BUILD_ID) {
-                    unstash(name: 'compiled-results')
-                    script {
-                        // Install Docker on the EC2 instance if needed
-                        sh 'sudo amazon-linux-extras install docker'
-                        sh 'sudo service docker start'
-
-                        // Run the Docker command on the EC2 instance
-                        sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
-                    }
-                }
-            }
-            post {
-                success {
-                    // Archive artifacts from the EC2 instance
-                    archiveArtifacts "/mnt/myapp/sources/dist/add2vals"
-                    // Clean up on the EC2 instance
-                    script {
-                        sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
+                script {
+                    def dockerCmd = 'touch /tmp/testdeploy'
+                    sshagent(['ec2-server-key']) {
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@3.92.144.96 ${dockerCmd}"
                     }
                 }
             }
         }
+        
     }
 }
