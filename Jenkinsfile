@@ -46,7 +46,7 @@ pipeline {
                         echo "test" >> /tmp/testdeploy
                         '''
                         sshagent(['b000e456-633b-41b7-8953-17eb7343f3c8']) {
-                            sh "ssh -o StrictHostKeyChecking=no ec2-user@54.179.43.54 ${dockerCmd}"
+                            sh 'uname -a'
                         }
                     }
                 }
