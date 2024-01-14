@@ -33,7 +33,7 @@ pipeline {
         stage('Deploy') { 
             agent any
             environment { 
-                VOLUME = '$(pwd)/sources:/src'
+                VOLUME = '/mnt/myapp:/src' 
                 IMAGE = 'cdrx/pyinstaller-linux:python2'
             }
             steps {
@@ -42,11 +42,13 @@ pipeline {
                     //sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'" 
                     script {
                         def dockerCmd = '''
-                        touch /tmp/testdeploy
-                        echo "test" >> /tmp/testdeploy
+                        sudo amazon-linux-extras install docker
+                        sudo service docker start
+
+                        docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'
                         '''
                         sshagent(['b000e456-633b-41b7-8953-17eb7343f3c8']) {
-                            sh 'uname -a'
+                            sh "ssh -o StrictHostKeyChecking=no ec2-user@54.179.43.54 ${dockerCmd}"
                         }
                     }
                 }
